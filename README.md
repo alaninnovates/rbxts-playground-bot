@@ -1,4 +1,3 @@
-```sh
-docker build -t rbxts-bot .
-docker run --name rbxts-bot rbxts-bot
-```
+1. Rename .env.example to .env then fill it out
+2. `docker build -t rbxts-bot .`
+3. `docker run --name rbxts-bot rbxts-bot`
