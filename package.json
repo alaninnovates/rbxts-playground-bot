@@ -1,0 +1,24 @@
+{
+	"name": "rbxts-bot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"start": "node .",
+		"build": "tsc"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^0.21.4",
+		"discord.js": "^13.1.0",
+		"dotenv": "^10.0.0",
+		"lz-string": "^1.4.4"
+	},
+	"devDependencies": {
+		"@types/lz-string": "^1.3.34",
+		"@types/node": "^16.9.2",
+		"typescript": "^4.4.3"
+	}
+}
