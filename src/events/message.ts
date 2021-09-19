@@ -1,4 +1,10 @@
-import { Client, Message, MessageEmbed } from 'discord.js';
+import {
+	Client,
+	Message,
+	MessageActionRow,
+	MessageButton,
+	MessageEmbed,
+} from 'discord.js';
 import { PLAYGROUND_REGEX } from '../util/constants';
 import { decompressFromEncodedURIComponent } from 'lz-string';
 import axios from 'axios';
@@ -14,9 +20,15 @@ export default class MessageListner {
 	async exec(message: Message) {
 		if (PLAYGROUND_REGEX.test(message.content)) {
 			const match = PLAYGROUND_REGEX.exec(message.content)!;
+
+			const url = match[0];
 			const type = match[1];
 			const id = match[2];
 			// console.log(type, id);
+
+			if (message.content.length === url.length) {
+				message.delete();
+			}
 
 			let res;
 			switch (type) {
@@ -44,18 +56,51 @@ export default class MessageListner {
 				message.channel.send({
 					embeds: [
 						new MessageEmbed()
-							.setTitle('Code content')
-							.setDescription('Error! No content found.')
+							.setTitle('Typescript Playground')
+							.setAuthor(
+								message.author.username,
+								message.author.avatarURL()!
+							)
+							.setDescription('Error! No valid content found.')
 							.setColor('RED'),
+					],
+					components: [
+						new MessageActionRow().addComponents(
+							new MessageButton()
+								.setCustomId('deleteEmbed')
+								.setLabel('Delete')
+								// Trash emoji
+								.setEmoji('🗑')
+								.setStyle('DANGER')
+						),
 					],
 				});
 			} else if (res.length < 1800) {
+				const typeStr = type === 'gist' ? 'Gist' : 'Playground';
 				message.channel.send({
 					embeds: [
 						new MessageEmbed()
-							.setTitle('Code content')
+							.setTitle(`Typescript ${typeStr}`)
+							.setAuthor(
+								message.author.username,
+								message.author.avatarURL()!
+							)
 							.setDescription(generateCodeBlcok('ts', res))
 							.setColor('GREEN'),
+					],
+					components: [
+						new MessageActionRow().addComponents(
+							new MessageButton()
+								.setLabel(`${typeStr} URL`)
+								.setURL(url)
+								.setStyle('LINK'),
+							new MessageButton()
+								.setCustomId('deleteEmbed')
+								.setLabel('Delete')
+								// Trash emoji
+								.setEmoji('🗑')
+								.setStyle('DANGER')
+						),
 					],
 				});
 			} else if (res.length > 1800) {
