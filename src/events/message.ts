@@ -10,6 +10,8 @@ import { decompressFromEncodedURIComponent } from 'lz-string';
 import axios from 'axios';
 import { generateCodeBlcok } from '../util/util';
 
+const allowedChannels = JSON.parse(process.env.ALLOWED_CHANNELS!) as string[];
+
 export default class MessageListner {
 	client: Client;
 	name: string;
@@ -18,6 +20,7 @@ export default class MessageListner {
 		this.name = 'messageCreate';
 	}
 	async exec(message: Message) {
+		if (!allowedChannels.includes(message.channel.id)) return;
 		if (PLAYGROUND_REGEX.test(message.content)) {
 			const match = PLAYGROUND_REGEX.exec(message.content)!;
 
