@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import fs from 'fs';
 import { config } from 'dotenv';
 import { Client, Intents } from 'discord.js';
@@ -20,6 +21,13 @@ const client = new Client({
 		} else {
 			client.on(event.name, (...args) => event.exec(...args));
 		}
+	}
+	const commandFiles = fs
+		.readdirSync('./dist/commands')
+		.filter((file) => file.endsWith('.js'));
+
+	for (const file of commandFiles) {
+		await import(`./commands/${file}`);
 	}
 })();
 

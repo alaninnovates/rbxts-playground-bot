@@ -14,11 +14,18 @@
 		"axios": "^0.21.4",
 		"discord.js": "^13.1.0",
 		"dotenv": "^10.0.0",
-		"lz-string": "^1.4.4"
+		"lz-string": "^1.4.4",
+		"module-alias": "^2.2.2"
 	},
 	"devDependencies": {
 		"@types/lz-string": "^1.3.34",
 		"@types/node": "^16.9.2",
 		"typescript": "^4.4.3"
+	},
+	"_moduleAliases": {
+		"@util": "dist/util",
+		"@lib": "dist/lib",
+		"@core": "dist/lib/decorators",
+		"@root": "."
 	}
 }
