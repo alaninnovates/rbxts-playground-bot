@@ -2,6 +2,7 @@ import 'module-alias/register';
 import fs from 'fs';
 import { config } from 'dotenv';
 import { Client, Intents } from 'discord.js';
+import { checkEnv } from '@util/checkEnv';
 
 config();
 
@@ -31,4 +32,5 @@ const client = new Client({
 	}
 })();
 
+checkEnv();
 client.login(process.env.DISCORD_TOKEN);
